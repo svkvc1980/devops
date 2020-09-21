@@ -12,7 +12,8 @@ pipeline{
             steps {
             sh 'echo "Builing the Maven Java application"'
             sh 'mvn clean compile package'
-	    sh 'cp -i -p target/*.war /home/centos/project-war-file-location/app.war'
+            sh 'sudo rm -rf /home/centos/project-war-file-location/app.war'
+	    sh 'cp -i -p /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/target/*.war /home/centos/project-war-file-location/app.war'
             }
             }
   }
