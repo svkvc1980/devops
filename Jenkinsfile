@@ -7,7 +7,7 @@ pipeline {
                  echo "Cloning the GitHub repo and building the applicatin using Maven compiler"
                  git branch: 'test-from-master', url: 'https://github.com/svkvc1980/project.git'
                  sh 'mvn clean compile package'
-                 sh 'sudo rm -rf /home/centos/project-war-file-location/app.war'
+                 sh 'sudo rm -rf /home/centos/project-war-file-location/*'
                  sh 'cp -i -p /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/target/*.war /home/centos/project-war-file-location/app.war'
                 
             }
@@ -16,12 +16,24 @@ pipeline {
         stage('Stage 2') {
             agent { label 'CENO-DOCKER-MASTER' }
             steps {
-                echo "just doing ls command"
-                sh 'ls /home/centos/'
+                echo "Creating a Docker image and uploading to hub.docker.com"
+                git branch: 'TEST', url: 'https://github.com/svkvc1980/devops.git'
+                sh 'cp -p -i * /home/centos/project-war-file-location/'
+                sh 'num=$(cat /home/centos/project-war-file-location/increment-file.txt)'
+                sh 'cd /home/centos/project-war-file-location/'
+                sh 'docker build -t vinaydockersince1980/vinaydockerrepo:webcalc-$num .'
+                sh 'sh /home/centos/project-war-file-location/increment.sh'
+                sh 'docker push vinaydockersince1980/vinaydockerrepo:webcalc-$num'
+                sh 'docker image rm -f vinaydockersince1980/vinaydockerrepo:webcalc-$num tomcat:7-alpine'
+                sh 'docker images'
+                sh 'docker container ls'
+                sh 'docker container ls -a'
+
             }
         }
     }
 }
+
 
 /* this works above is testing to incorporate everything into one 
 pipeline{
