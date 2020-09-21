@@ -25,7 +25,7 @@ pipeline {
                 }
                 sh 'cp -p -i /home/centos/project-war-file-location/app.war /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/Module2/'
                 sh 'num=$(cat /home/centos/project-war-file-location/increment-file.txt)'
-                sh 'cp -i -p /home/centos/project-war-file-location/app.war 
+                sh 'cp -i -p /home/centos/project-war-file-location/app.war'
                 sh 'cd /home/centos/project-war-file-location/'
                 sh 'docker build -t vinaydockersince1980/vinaydockerrepo:webcalc-"$num" .'
                 sh 'sh /home/centos/project-war-file-location/increment.sh'
