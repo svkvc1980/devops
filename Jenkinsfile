@@ -17,7 +17,12 @@ pipeline {
             agent { label 'CENO-DOCKER-MASTER' }
             steps {
                 echo "Creating a Docker image and uploading to hub.docker.com"
-                git branch: 'TEST', url: 'https://github.com/svkvc1980/devops.git'
+                sh 'mkdir -p Module2'
+                dir("Module2")
+                {
+                git branch: "TEST",
+                url: 'https://github.com/svkvc1980/devops.git'
+                }
                 sh 'cp -p -i * /home/centos/project-war-file-location/'
                 sh 'num=$(cat /home/centos/project-war-file-location/increment-file.txt)'
                 sh 'cd /home/centos/project-war-file-location/'
