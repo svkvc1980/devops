@@ -23,8 +23,7 @@ pipeline {
                 git branch: "TEST",
                 url: 'https://github.com/svkvc1980/devops.git'
                 }
-                sh 'cd /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/Module2/'
-                sh 'cp -p -i * /home/centos/project-war-file-location/'
+                sh 'cp -p -i /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/Module2/* /home/centos/project-war-file-location/'
                 sh 'num=$(cat /home/centos/project-war-file-location/increment-file.txt)'
                 sh 'cd /home/centos/project-war-file-location/'
                 sh 'docker build -t vinaydockersince1980/vinaydockerrepo:webcalc-$num .'
@@ -39,7 +38,6 @@ pipeline {
         }
     }
 }
-
 
 /* this works above is testing to incorporate everything into one 
 pipeline{
