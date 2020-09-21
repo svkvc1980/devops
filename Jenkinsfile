@@ -1,3 +1,29 @@
+pipeline {
+    agent none
+    stages {
+        stage('Stage 1') {
+            agent { label 'CENO-DOCKER-MASTER' }
+            steps {
+                 echo "Cloning the GitHub repo and building the applicatin using Maven compiler"
+                 git branch: 'test-from-master', url: 'https://github.com/svkvc1980/project.git'
+                 sh 'mvn clean compile package'
+                 sh 'sudo rm -rf /home/centos/project-war-file-location/app.war'
+                 sh 'cp -i -p /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/target/*.war /home/centos/project-war-file-location/app.war'
+                
+            }
+        }
+        
+        stage('Stage 2') {
+            agent { label 'CENO-DOCKER-MASTER' }
+            steps {
+                echo "just doing ls command"
+                sh 'ls /home/centos/'
+            }
+        }
+    }
+}
+
+/* this works above is testing to incorporate everything into one 
 pipeline{
 
   agent { label 'CENO-DOCKER-MASTER' }
@@ -19,7 +45,7 @@ pipeline{
   }
 
 }
-
+until here */
 /*
 pipeline{
   
