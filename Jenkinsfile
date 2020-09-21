@@ -23,12 +23,13 @@ pipeline {
                 git branch: "TEST",
                 url: 'https://github.com/svkvc1980/devops.git'
                 }
-                sh 'cp -p -i /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/Module2/* /home/centos/project-war-file-location/'
+                sh 'cp -p -i /home/centos/project-war-file-location/app.war /home/centos/jenkindockernode/workspace/TEST-PIPELINE-BUILD-DOCKER-K8-PROD-8080/Module2/'
                 sh 'num=$(cat /home/centos/project-war-file-location/increment-file.txt)'
+                sh 'cp -i -p /home/centos/project-war-file-location/app.war 
                 sh 'cd /home/centos/project-war-file-location/'
-                sh 'docker build -t vinaydockersince1980/vinaydockerrepo:webcalc-$num .'
+                sh 'docker build -t vinaydockersince1980/vinaydockerrepo:webcalc-"$num" .'
                 sh 'sh /home/centos/project-war-file-location/increment.sh'
-                sh 'docker push vinaydockersince1980/vinaydockerrepo:webcalc-$num'
+                sh 'docker push vinaydockersince1980/vinaydockerrepo:webcalc-"$num"'
                 sh 'docker image rm -f vinaydockersince1980/vinaydockerrepo:webcalc-$num tomcat:7-alpine'
                 sh 'docker images'
                 sh 'docker container ls'
