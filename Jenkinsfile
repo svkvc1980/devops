@@ -2,6 +2,36 @@ pipeline {
     agent none
     stages {
         stage('Stage 1') {
+            steps {
+                 echo "Build the application"
+                 build job: '001.Build-App-WebCalculator'
+                
+            }
+        }
+        
+        stage('Stage 2') {
+            
+            steps {
+                echo "Creating a Docker image and uploading to hub.docker.com"
+                build job: '002.Create-Docker-Image'
+
+            }
+        }
+        stage('Stage 3') {
+            
+            steps {
+                echo "Uploading and creating the load balancer"
+                build job: 'Test-K8-Job'
+
+            }
+        }
+    }
+}
+/* this works above good calling multiple job, below I am still trying to incorporate everything as script not successful still trying. 
+pipeline {
+    agent none
+    stages {
+        stage('Stage 1') {
             agent { label 'CENO-DOCKER-MASTER' }
             steps {
                  echo "Cloning the GitHub repo and building the applicatin using Maven compiler"
@@ -39,7 +69,7 @@ pipeline {
         }
     }
 }
-
+Until here*/
 /* this works above is testing to incorporate everything into one 
 pipeline{
 
